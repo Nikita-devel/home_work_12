@@ -36,9 +36,11 @@ class Phone(Field):
 
     @staticmethod
     def _is_valid_phone(phone):
-        # Implement your phone number validation logic here
-        # Return True if the phone number is valid, False otherwise
-        return True  # Placeholder implementation
+        if len(phone) != 10:
+            return False
+        if not phone.isdigit():
+            return False
+        return True
 
 
 class Birthday(Field):
