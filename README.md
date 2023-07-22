@@ -1,41 +1,93 @@
-# home_work_12
- 
+# home_work_11
+
 # Address Book Assistant
 
-The Address Book Assistant is a command-line application that allows you to manage your contacts. It provides various functionalities such as adding contacts, changing phone numbers, retrieving phone numbers, displaying all contacts, getting weather information, and obtaining the current time.
+The Address Book Assistant is a simple command-line application that allows you to manage contacts in an address book. You can add, edit, delete, and search for contacts, as well as get weather information and the current time. The assistant also supports adding and tracking the birthdays of your contacts.
 
-## Requirements
+## Getting Started
 
-- Python 3.x
+### Prerequisites
 
-## Installation
+- Python 3.6 or higher
 
-Install the required packages:
-pip install -r requirements.txt
+### Installation
 
-Usage
-Run the script:
-python as03.py
-Follow the instructions displayed by the Assistant.
+1. Clone this repository to your local machine or download the ZIP file.
 
-Examples
-To add a contact:
-add John Doe 123456789
+2. Open a terminal or command prompt and navigate to the project directory.
 
-To change the phone number of an existing contact:
-change John Doe 123456789 987654321
+3. It's recommended to create a virtual environment to manage dependencies:
 
-To retrieve the phone number(s) of a contact:
-phone John Doe
+   python -m venv venv
 
-To display all saved contacts:
-show all
 
-To get the current weather in a city:
-weather New York
+4. Activate the virtual environment:
 
-To get the current time:
-time
+   - On Windows:
 
-For a list of available commands:
-help
+   venv\Scripts\activate
+
+
+   - On macOS and Linux:
+
+   source venv/bin/activate
+
+
+5. Install the required dependencies from the `requirements.txt` file:
+
+   pip install -r requirements.txt
+
+
+### Usage
+
+To start the Address Book Assistant, run the `main.py` script:
+
+python main.py
+
+
+Once the assistant is running, you can interact with it using commands:
+
+- To add a contact:
+
+  add <name> <phone> [birthday]
+
+  If the `birthday` argument is provided in the format "DD/MM," the assistant will add the contact's birthday.
+
+- To change a contact's phone number:
+
+  change <name> <old_phone> <new_phone>
+
+
+- To get the phone number(s) of a contact:
+
+  phone <name>
+
+
+- To show all saved contacts with pagination (default page size is 10):
+
+  show all
+
+
+- To get the current weather in a specified city:
+
+  weather <city>
+
+
+- To get the current time:
+
+  time
+
+
+- To see available commands:
+
+  help
+
+
+- To exit the assistant:
+
+  goodbye, close, bye, good, exit
+
+
+## Contributing
+
+Contributions to this project are welcome. If you find any issues or have suggestions for improvements, feel free to open an issue or submit a pull request.
