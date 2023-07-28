@@ -34,6 +34,9 @@ class Phone:
 
     def __str__(self):
         return str(self._value)
+    
+    def __eq__(self, __value: object) -> bool:
+        return self._value == __value._value
 
 # Class representing a Birthday, with day and month attributes
 class Birthday:
@@ -64,27 +67,29 @@ class Birthday:
 
 # Class representing a Record in the AddressBook
 class Record:
-    def __init__(self, name, phone=None, birthday=None):
-        self.name = Name(str(name).capitalize())
+    def __init__(self, name: Name, 
+                 phone: Phone = None, 
+                 birthday: Birthday = None):
+        self.name = name
         self.phones = []
-        if phone is not None:
-            self.phones.append(Phone(phone))
+        if phone:
+            self.phones.append(phone)
         self.birthday = birthday
 
     # Method to add a phone to the record
-    def add_phone(self, phone):
+    def add_phone(self, phone: Phone):
         if phone not in self.phones:
             self.phones.append(phone)
 
     # Method to delete a phone from the record
-    def delete_phone(self, phone):
+    def delete_phone(self, phone: Phone):
         self.phones.remove(phone)
 
     # Method to edit a phone in the record
-    def edit_phone(self, old_phone, new_phone):
-        for phone in self.phones:
-            if str(phone) == old_phone:
-                phone.value = new_phone
+    def edit_phone(self, old_phone: Phone, new_phone: Phone):
+        for index, phone in enumerate(self.phones):
+            if phone == old_phone:
+                self.phones[index] = new_phone
                 return
         raise ValueError("Phone number not found")
 
@@ -112,12 +117,13 @@ class Record:
     
 # Class representing an AddressBook, which is a dictionary of Records
 class AddressBook(dict):
-    def __init__(self, filename="contacts.csv"):
+    def __init__(self, filename="contacts.csv", load_data = True):
         self.filename = filename
         self.page_size = 10
         if not os.path.isfile(filename):
             self.create_empty_csv_file()
-        self.load_data()
+        if load_data:
+            self.load_data()
 
     # Method to create an empty CSV file with header
     def create_empty_csv_file(self):
@@ -144,9 +150,9 @@ class AddressBook(dict):
 
     # Method to search records in the address book based on query
     def search_records(self, query):
-        search_results = AddressBook()
+        search_results = AddressBook(load_data=False)
         for record in self.values():
-            if query.lower() in record.name.value.lower() or query in record.phones:
+            if query.lower() in str(record).lower():
                 search_results.add_record(record)
         return search_results
 
@@ -168,10 +174,12 @@ class AddressBook(dict):
             writer.writeheader()
 
             for record in self.values():
-                phones = ', '.join(str(phone) for phone in record.phones)
+                phones = ';'.join(str(phone) for phone in record.phones)
                 birthday_day = record.birthday.day if record.birthday else ""
                 birthday_month = record.birthday.month if record.birthday else ""
-                writer.writerow({"Name": record.name.value, "Phones": phones, "Birthday": f"{birthday_day}/{birthday_month}"})
+                writer.writerow({"Name": record.name.value, 
+                                 "Phones": phones, 
+                                 "Birthday": f"{birthday_day}/{birthday_month}" if record.birthday else ""})
 
     # Method to load the address book data from a CSV file
     def load_data(self, filename="contacts.csv"):
@@ -179,13 +187,15 @@ class AddressBook(dict):
             reader = csv.DictReader(file)
 
             for row in reader:
-                name = row["Name"]
-                phones = row["Phones"].split(", ")
-                birthday = row["Birthday"]
-                if birthday:
+                name = Name(row["Name"])
+                phones = [Phone(p) for p in row["Phones"].split(";")]
+                birthday_raw = row["Birthday"]
+                if birthday_raw:
                     day, month = map(int, birthday.split("/"))
                     birthday = Birthday(day, month)
                 else:
                     birthday = None
-                record = Record(name, phones, birthday)
+                record = Record(name, birthday=birthday)
+                for phone in phones:
+                    record.add_phone(phone)
                 self.add_record(record)

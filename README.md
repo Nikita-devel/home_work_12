@@ -1,93 +1,62 @@
-# home_work_11
+# Contact Management Assistant
 
-# Address Book Assistant
+This is a simple command-line contact management assistant that allows users to manage contacts, add birthdays, get weather information, and more.
 
-The Address Book Assistant is a simple command-line application that allows you to manage contacts in an address book. You can add, edit, delete, and search for contacts, as well as get weather information and the current time. The assistant also supports adding and tracking the birthdays of your contacts.
+## How to Use
 
-## Getting Started
+1. Clone the repository to your local machine.
+2. Install the required dependencies using pip:
 
-### Prerequisites
-
-- Python 3.6 or higher
-
-### Installation
-
-1. Clone this repository to your local machine or download the ZIP file.
-
-2. Open a terminal or command prompt and navigate to the project directory.
-
-3. It's recommended to create a virtual environment to manage dependencies:
-
-   python -m venv venv
+    pip install -r requirements.txt
 
 
-4. Activate the virtual environment:
+3. Run the `main.py` script:
 
-   - On Windows:
-
-   venv\Scripts\activate
+    python main.py
 
 
-   - On macOS and Linux:
+4. Follow the instructions provided by the assistant to manage contacts and utilize other features.
 
-   source venv/bin/activate
+## Features
 
+- Add new contacts with their name and phone number.
+- Optionally, add a birthday to a contact.
+- Change the phone number of an existing contact.
+- Get the phone number(s) of a contact.
+- Search for contacts by name or phone number.
+- Show all saved contacts.
+- Get the current weather in a specified city.
+- Get the current time.
 
-5. Install the required dependencies from the `requirements.txt` file:
+## How It Works
 
-   pip install -r requirements.txt
+The assistant uses the OpenWeatherMap API to get weather information for a specific city. It also saves and loads contact data in a CSV file (`contacts.csv`). The assistant's features are implemented as separate functions in the `assistant.py` file, and contact management functionalities are provided through the `contacts.py` module.
 
+## Contact Management
 
-### Usage
+The `contacts.py` module contains classes representing contact details, such as `Name`, `Phone`, `Birthday`, and `Record`. The `AddressBook` class manages a collection of contacts and provides functionalities to add, edit, delete, and search contacts. The contact data is stored in a CSV file.
 
-To start the Address Book Assistant, run the `main.py` script:
+## Decorator
 
-python main.py
+The `decorators.py` module contains the `input_error` decorator. This decorator handles errors related to contact management functions, such as KeyError, ValueError, and IndexError, and returns user-friendly error messages.
 
+## Commands
 
-Once the assistant is running, you can interact with it using commands:
+Below are the available commands:
 
-- To add a contact:
+- `hello`: Greet the assistant.
+- `add <name> <phone> [birthday]`: Add a contact with the given name, phone number, and optionally, the birthday (format: DD/MM).
+- `change <name> <old_phone> <new_phone>`: Change the phone number of an existing contact.
+- `phone <name>`: Get the phone number(s) of a contact.
+- `search <query>`: Search contacts by name or phone number.
+- `show all`: Show all saved contacts.
+- `weather <city>`: Get the current weather in the specified city.
+- `time`: Get the current time.
+- `help`: Show available commands.
+- `goodbye`, `close`, `exit`: Close the assistant.
 
-  add <name> <phone> [birthday]
+## Note
 
-  If the `birthday` argument is provided in the format "DD/MM," the assistant will add the contact's birthday.
+Please note that the assistant uses the OpenWeatherMap API, and you need to provide your own API key (replace `API_KEY = "YOUR_API_KEY"` in the `assistant.py` script) to use the weather feature.
 
-- To change a contact's phone number:
-
-  change <name> <old_phone> <new_phone>
-
-
-- To get the phone number(s) of a contact:
-
-  phone <name>
-
-
-- To show all saved contacts with pagination (default page size is 10):
-
-  show all
-
-
-- To get the current weather in a specified city:
-
-  weather <city>
-
-
-- To get the current time:
-
-  time
-
-
-- To see available commands:
-
-  help
-
-
-- To exit the assistant:
-
-  goodbye, close, bye, good, exit
-
-
-## Contributing
-
-Contributions to this project are welcome. If you find any issues or have suggestions for improvements, feel free to open an issue or submit a pull request.
+Feel free to explore, modify, and extend this assistant as needed!
