@@ -25,21 +25,26 @@ def add_birthday(name, birthday):
 
 # Function to add a new contact or edit an existing one
 @input_error
-def add_contact(name, phone, birthday=None):
+def add_contact(name, phone=None, birthday=None):
     name = Name(name)
-    if phone is None:
-        raise ValueError("Give me name and phone please")
-    if name.value in contacts:
-        # If the name is already in contacts, update the phone and/or birthday
-        record = contacts[name.value]
-        if phone != "None":  # Fix to handle the case when only phone number is provided
-            record.add_phone(phone)
-        if birthday:
-            if record.birthday is None:
-                record.birthday = birthday
-            else:
-                record.birthday.day = birthday.day
-                record.birthday.month = birthday.month
+    # if not phone is None:
+    #     raise ValueError("Give me name and phone please")
+    phone = Phone(phone) if phone else None
+    birthday = Birthday(birthday) if birthday else None
+    rec: Record = contacts.get(str(name))
+    if rec:
+        rec.add_phone(phone)
+        rec.birthday = birthday
+        # # If the name is already in contacts, update the phone and/or birthday
+        # record = contacts[name.value]
+        # if phone != "None":  # Fix to handle the case when only phone number is provided
+        #     record.add_phone(phone)
+        # if birthday:
+        #     if record.birthday is None:
+        #         record.birthday = birthday
+        #     else:
+        #         record.birthday.day = birthday.day
+        #         record.birthday.month = birthday.month
     else:
         # If the name is not in contacts, create a new record with the given details
         record = Record(name, phone, birthday)
@@ -50,11 +55,15 @@ def add_contact(name, phone, birthday=None):
 @input_error
 def change_contact(name, old_phone, new_phone):
     # Find matching names (case-insensitive) in the contacts
-    matching_names = [n for n in contacts if n.lower() == name.lower()]
-    if matching_names:
-        # If the name is found, update the phone number and save changes to disk
-        record = contacts[matching_names[0]]
-        record.edit_phone(old_phone, new_phone)
+    # matching_names = [n for n in contacts if n.lower() == name.lower()]
+    name = Name(name)
+    rec = contacts[str(name)]
+    if rec:
+        old = Phone(old_phone)
+        new = Phone(new_phone)
+        # # If the name is found, update the phone number and save changes to disk
+        # record = contacts[matching_names[0]]
+        rec.edit_phone(old, new_phone)
         contacts.save_data()
         return "Contact updated successfully"
     else:
