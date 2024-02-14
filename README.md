@@ -1,4 +1,4 @@
-# Contact Management Assistant
+# Console Assistant Bot
 
 This is a simple command-line contact management assistant that allows users to manage contacts, add birthdays, get weather information, and more.
 
