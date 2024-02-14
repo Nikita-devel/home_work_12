@@ -1,3 +1,5 @@
+[Main page](https://github.com/Nikita-devel) | [Python Core Page](https://github.com/Nikita-devel/Python_Core)
+
 # Console Assistant Bot
 
 This is a simple command-line contact management assistant that allows users to manage contacts, add birthdays, get weather information, and more.
